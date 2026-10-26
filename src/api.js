@@ -31,4 +31,18 @@ export function sendChat({ retailerId, messages, capturedItems, followUps }) {
   })
 }
 
-// TODO(steps 6-7): endConversation, getConversations, getConversation.
+// Ends the call: the server summarises and saves it. Returns { saved, conversation?, reason? }.
+export function endConversation({ conversationId, retailerId, startedAt, messages, capturedItems, followUps }) {
+  return request('/summary', {
+    method: 'POST',
+    body: JSON.stringify({ conversationId, retailerId, startedAt, messages, capturedItems, followUps }),
+  })
+}
+
+export function getConversations() {
+  return request('/conversations')
+}
+
+export function getConversation(id) {
+  return request(`/conversations/${encodeURIComponent(id)}`)
+}

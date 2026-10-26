@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-// TODO(step 5): mic button with listening state, interim transcript and mute toggle.
-export default function ChatInput({ onSend, disabled }) {
+// Text box + Send is always available; `mic` is the optional mic button rendered beside it.
+export default function ChatInput({ onSend, disabled, mic }) {
   const [text, setText] = useState('')
 
   function handleSubmit(event) {
@@ -13,6 +13,7 @@ export default function ChatInput({ onSend, disabled }) {
 
   return (
     <form className="chat-input" onSubmit={handleSubmit}>
+      {mic}
       <input
         type="text"
         value={text}

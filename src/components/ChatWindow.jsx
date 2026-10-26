@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import MessageBubble from './MessageBubble.jsx'
 
 export default function ChatWindow({ messages, thinking }) {
   const endRef = useRef(null)
@@ -10,10 +11,7 @@ export default function ChatWindow({ messages, thinking }) {
   return (
     <div className="chat-window" aria-live="polite">
       {messages.map((m, index) => (
-        <div key={`${m.ts}-${index}`} className={`bubble bubble--${m.role}`}>
-          <span className="bubble__who">{m.role === 'agent' ? 'Meera' : 'You'}</span>
-          <p>{m.text}</p>
-        </div>
+        <MessageBubble key={`${m.ts}-${index}`} message={m} />
       ))}
       {thinking && <div className="bubble bubble--agent bubble--thinking">Agent is thinking...</div>}
       <div ref={endRef} />

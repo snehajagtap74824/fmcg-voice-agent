@@ -53,7 +53,7 @@ function toGeminiContents(messages) {
   }));
 }
 
-function isValidMessage(m) {
+export function isValidMessage(m) {
   return (m?.role === 'retailer' || m?.role === 'agent') && typeof m.text === 'string';
 }
 

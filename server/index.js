@@ -23,7 +23,7 @@ try {
 }
 
 if (!isGeminiConfigured()) {
-  console.warn('\n*** WARNING: GEMINI_API_KEY is not set in server/.env. /api/chat will return 503. ***\n');
+  console.warn('\n*** WARNING: GEMINI_API_KEY is not set in server/.env. /api/chat will return 503 and summaries will be "Summary unavailable". ***\n');
 }
 
 const app = express();
@@ -33,7 +33,7 @@ app.get('/api/health', (req, res) => {
   res.json({ ok: true, geminiConfigured: isGeminiConfigured(), model: getModelName() });
 });
 app.use('/api', createDataRouter({ products, retailers }));
-app.use('/api', createConversationsRouter({ retailers }));
+app.use('/api', createConversationsRouter({ products, retailers }));
 app.use('/api', createChatRouter({ products, retailers }));
 
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));

@@ -1,0 +1,193 @@
+[
+  {
+    "id": "3f9c1e2a-7b4d-4c1e-9a55-0d2b6c8e1f10",
+    "retailerId": "R001",
+    "retailerName": "Shree Ganesh Kirana Store",
+    "ownerName": "Ramesh Patil",
+    "startedAt": "2026-10-26T10:15:02.120Z",
+    "endedAt": "2026-10-26T10:19:47.905Z",
+    "summary": "Ramesh Patil enquired about Keshvana coconut oil, Grainora atta and Tarangini almond oil. He noted 20 bottles of coconut oil and 20 packs of atta, for an enquiry total of 8,720 rupees, plus 24 bottles of almond oil as backorder interest. He asked for a callback on Friday about his credit.",
+    "summaryStatus": "ok",
+    "outcome": "order_enquiry",
+    "sentiment": "positive",
+    "productInterests": [
+      {
+        "productId": "P001",
+        "productName": "Keshvana Pure Coconut Hair Oil",
+        "unit": "bottle",
+        "quantity": 20,
+        "retailerPrice": 178,
+        "grossValue": 3560,
+        "freeUnits": 2,
+        "discountAmount": 0,
+        "freeGift": null,
+        "netValue": 3560,
+        "schemeApplied": "Buy 10 get 1 free",
+        "schemeHint": null,
+        "minOrderQty": 6,
+        "belowMinOrder": false,
+        "stockStatus": "in_stock",
+        "backorder": false
+      },
+      {
+        "productId": "P010",
+        "productName": "Grainora Gold Chakki Atta",
+        "unit": "pack",
+        "quantity": 20,
+        "retailerPrice": 258,
+        "grossValue": 5160,
+        "freeUnits": 0,
+        "discountAmount": 0,
+        "freeGift": {
+          "item": "Grainora iodised salt 1 kg",
+          "quantity": 2
+        },
+        "netValue": 5160,
+        "schemeApplied": "Free 1 kg Grainora iodised salt with every 10 packs",
+        "schemeHint": null,
+        "minOrderQty": 5,
+        "belowMinOrder": false,
+        "stockStatus": "in_stock",
+        "backorder": false
+      },
+      {
+        "productId": "P003",
+        "productName": "Tarangini Almond Hair Oil",
+        "unit": "bottle",
+        "quantity": 24,
+        "retailerPrice": 118,
+        "grossValue": 2832,
+        "freeUnits": 0,
+        "discountAmount": 141.6,
+        "freeGift": null,
+        "netValue": 2690.4,
+        "schemeApplied": "Extra 5% discount on orders of 24 units or more",
+        "schemeHint": null,
+        "minOrderQty": 12,
+        "belowMinOrder": false,
+        "stockStatus": "out_of_stock",
+        "backorder": true
+      }
+    ],
+    "enquiryTotal": 8720,
+    "followUps": [
+      {
+        "type": "credit_query",
+        "details": "Call back on Friday about credit and outstanding amount.",
+        "dueDate": "2026-10-30"
+      }
+    ],
+    "transcript": [
+      {
+        "role": "agent",
+        "text": "Namaste Ramesh ji, welcome. How can I help Shree Ganesh Kirana Store today?",
+        "ts": "2026-10-26T10:15:02.120Z",
+        "intent": "greeting"
+      },
+      {
+        "role": "retailer",
+        "text": "Is Tarangini almond oil available?",
+        "ts": "2026-10-26T10:15:20.410Z"
+      },
+      {
+        "role": "agent",
+        "text": "Sorry Ramesh ji, Tarangini Almond Hair Oil is out of stock right now, and restock is expected in two weeks. You could try Keshvana Pure Coconut Hair Oil 500 ml at 178 rupees, which is in stock with a buy 10 get 1 free scheme till 30 November.",
+        "ts": "2026-10-26T10:15:23.002Z",
+        "intent": "availability_query"
+      },
+      {
+        "role": "retailer",
+        "text": "Okay, send 20 bottles of Keshvana and 20 packs of Grainora atta. Also keep 24 Tarangini for when it comes.",
+        "ts": "2026-10-26T10:16:05.771Z"
+      },
+      {
+        "role": "agent",
+        "text": "Noted, Ramesh ji: 20 bottles of Keshvana Pure Coconut Hair Oil, 20 packs of Grainora Gold Chakki Atta and 24 bottles of Tarangini Almond Hair Oil in your enquiry. Keshvana Pure Coconut Hair Oil: 20 bottles, with 2 free bottles, net value 3,560 rupees. Grainora Gold Chakki Atta: 20 packs, with 2 free Grainora iodised salt 1 kg, net value 5,160 rupees. Tarangini Almond Hair Oil: 24 bottles, with 141.60 rupees off, net value 2,690.40 rupees. This is noted as backorder interest because it is out of stock. Your enquiry total is now 8,720 rupees.",
+        "ts": "2026-10-26T10:16:09.330Z",
+        "intent": "add_or_update_items"
+      },
+      {
+        "role": "retailer",
+        "text": "Call me back on Friday about my credit.",
+        "ts": "2026-10-26T10:18:40.002Z"
+      },
+      {
+        "role": "agent",
+        "text": "Sure, I have logged a callback for Friday, 30 October, about your credit. Our team will get back to you.",
+        "ts": "2026-10-26T10:18:42.640Z",
+        "intent": "follow_up"
+      }
+    ]
+  },
+  {
+    "id": "18db6991-46d5-414e-a04a-5f1c8a8bd505",
+    "retailerId": "R001",
+    "retailerName": "Shree Ganesh Kirana Store",
+    "ownerName": "Ramesh Patil",
+    "startedAt": "2026-10-26T17:12:46.445Z",
+    "endedAt": "2026-10-26T17:14:39.015Z",
+    "summary": "Summary unavailable",
+    "summaryStatus": "unavailable",
+    "outcome": "order_enquiry",
+    "sentiment": null,
+    "productInterests": [
+      {
+        "productId": "P001",
+        "productName": "Keshvana Pure Coconut Hair Oil",
+        "unit": "bottle",
+        "quantity": 20,
+        "retailerPrice": 178,
+        "grossValue": 3560,
+        "freeUnits": 2,
+        "discountAmount": 0,
+        "freeGift": null,
+        "netValue": 3560,
+        "schemeApplied": "Buy 10 get 1 free",
+        "schemeHint": null,
+        "minOrderQty": 6,
+        "belowMinOrder": false,
+        "stockStatus": "in_stock",
+        "backorder": false
+      },
+      {
+        "productId": "P003",
+        "productName": "Tarangini Almond Hair Oil",
+        "unit": "bottle",
+        "quantity": 24,
+        "retailerPrice": 118,
+        "grossValue": 2832,
+        "freeUnits": 0,
+        "discountAmount": 141.6,
+        "freeGift": null,
+        "netValue": 2690.4,
+        "schemeApplied": "Extra 5% discount on orders of 24 units or more",
+        "schemeHint": null,
+        "minOrderQty": 12,
+        "belowMinOrder": false,
+        "stockStatus": "out_of_stock",
+        "backorder": true
+      }
+    ],
+    "enquiryTotal": 3560,
+    "followUps": [],
+    "transcript": [
+      {
+        "role": "agent",
+        "text": "Namaste Ramesh ji, welcome. How can I help Shree Ganesh Kirana Store today?",
+        "ts": "2026-10-26T17:12:46.445Z",
+        "intent": "greeting"
+      },
+      {
+        "role": "retailer",
+        "text": "20 bottles of Keshvana coconut oil and 24 Tarangini almond oil",
+        "ts": "2026-10-26T17:14:02.235Z"
+      },
+      {
+        "role": "agent",
+        "text": "I have noted 20 bottles of Keshvana Pure Coconut Hair Oil in your enquiry. Regarding the Tarangini Almond Hair Oil, it is currently unavailable, but we expect a restock in two weeks. Would you like to consider the Keshvana Pure Coconut Hair Oil instead, which is available for 178 rupees? Keshvana Pure Coconut Hair Oil: 20 bottles, with 2 free bottles, net value 3,560 rupees. Tarangini Almond Hair Oil: 24 bottles, with 141.60 rupees off, net value 2,690.40 rupees. This is noted as backorder interest because it is out of stock, so it is not included in the total. Your enquiry total is now 3,560 rupees.",
+        "ts": "2026-10-26T17:14:05.453Z",
+        "intent": "add_or_update_items"
+      }
+    ]
+  }
+]

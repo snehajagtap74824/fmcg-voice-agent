@@ -1,4 +1,5 @@
 import { Type } from '@google/genai';
+import { OUTCOMES, SENTIMENTS } from './outcome.js';
 import { isSchemeActive } from './pricing.js';
 
 export const INTENTS = [
@@ -171,4 +172,51 @@ OUTPUT: return only JSON that matches the response schema.
 intent values: ${INTENTS.join(', ')}.`;
 }
 
-// TODO(step 6): buildSummaryPrompt() and SUMMARY_RESPONSE_SCHEMA.
+export const SUMMARY_RESPONSE_SCHEMA = {
+  type: Type.OBJECT,
+  properties: {
+    summary: { type: Type.STRING },
+    outcome: { type: Type.STRING, enum: OUTCOMES },
+    sentiment: { type: Type.STRING, enum: SENTIMENTS },
+  },
+  required: ['summary', 'outcome', 'sentiment'],
+  propertyOrdering: ['summary', 'outcome', 'sentiment'],
+};
+
+// pricedItems come from priceEnquiry(): Gemini may repeat these numbers but never calculates.
+export function buildSummaryPrompt({ todayISO, retailer, pricedItems, enquiryTotal, followUps }) {
+  const finalEnquiry = pricedItems.map((item) => ({
+    productName: item.productName,
+    quantity: item.quantity,
+    unit: item.unit,
+    freeUnits: item.freeUnits,
+    discountAmount: item.discountAmount,
+    freeGift: item.freeGift,
+    netValue: item.netValue,
+    backorder: item.backorder,
+  }));
+
+  return `You write call summaries for a sales manager at our FMCG company. The call was between our voice
+assistant Meera and a retailer. The transcript is in the user message.
+
+TODAY: ${todayISO}
+RETAILER: ${retailer.name} (owner ${retailer.ownerName}, ${retailer.city})
+
+FINAL ENQUIRY (calculated by our system; backorder items are out of stock and not in the total):
+${JSON.stringify(finalEnquiry)}
+ENQUIRY TOTAL: ${enquiryTotal} rupees
+
+FOLLOW-UPS:
+${JSON.stringify(followUps)}
+
+RULES
+1. "summary": 2-4 plain sentences, third person, past tense. Mention the products of interest with their
+   quantities and any follow-ups. Use only numbers that appear in FINAL ENQUIRY or ENQUIRY TOTAL;
+   do not calculate anything. Call backorder items "backorder interest" and do not include them when you
+   mention the total. Do not say an order was placed: it is an enquiry.
+2. "outcome": order_enquiry if FINAL ENQUIRY is not empty; otherwise follow_up_required if FOLLOW-UPS is
+   not empty; otherwise no_interest if the retailer clearly declined or was not interested, else info_only.
+3. "sentiment": the retailer's overall tone: positive, neutral or negative.
+
+OUTPUT: return only JSON that matches the response schema.`;
+}

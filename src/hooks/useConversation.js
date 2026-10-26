@@ -1,10 +1,11 @@
 import { useCallback, useRef, useState } from 'react'
-import { sendChat, startConversation } from '../api.js'
+import { endConversation, sendChat, startConversation } from '../api.js'
 
 const now = () => new Date().toISOString()
 
 // Holds the whole conversation in the browser (the server is stateless).
 // start() and send() return the agent's text so the screen can speak it.
+// status: 'idle' | 'active' | 'sending' | 'ending' | 'ended'
 export function useConversation() {
   const [status, setStatus] = useState('idle')
   const [conversation, setConversation] = useState(null)
@@ -12,11 +13,18 @@ export function useConversation() {
   const [capturedItems, setCapturedItems] = useState([])
   const [followUps, setFollowUps] = useState([])
   const [enquiryTotal, setEnquiryTotal] = useState(0)
+  const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
-  const sendingRef = useRef(false)
+  // Blocks a second request (send or end) while one is in flight, including late voice results.
+  const busyRef = useRef(false)
 
+  // Also used for "Start new conversation": every piece of state is replaced.
   const start = useCallback(async (retailerId) => {
     setError(null)
+    setResult(null)
+    setConversation(null)
+    setStatus('idle')
+    busyRef.current = false
     try {
       const data = await startConversation(retailerId)
       setConversation({ id: data.conversationId, startedAt: data.startedAt, retailer: data.retailer })
@@ -35,9 +43,9 @@ export function useConversation() {
   const send = useCallback(
     async (text) => {
       const trimmed = text.trim()
-      if (!trimmed || !conversation || sendingRef.current) return null
+      if (!trimmed || !conversation || status !== 'active' || busyRef.current) return null
 
-      sendingRef.current = true
+      busyRef.current = true
       setError(null)
       setStatus('sending')
       const nextMessages = [...messages, { role: 'retailer', text: trimmed, ts: now() }]
@@ -60,14 +68,37 @@ export function useConversation() {
         setError(err.message)
         return null
       } finally {
-        sendingRef.current = false
+        busyRef.current = false
         setStatus('active')
       }
     },
-    [conversation, messages, capturedItems, followUps],
+    [conversation, status, messages, capturedItems, followUps],
   )
 
-  // TODO(step 6): end(), reset() and result.
+  // Asks the server to summarise and save. On failure the conversation stays on screen so End can be retried.
+  const end = useCallback(async () => {
+    if (!conversation || status !== 'active' || busyRef.current) return
 
-  return { status, conversation, messages, capturedItems, followUps, enquiryTotal, error, start, send }
+    busyRef.current = true
+    setError(null)
+    setStatus('ending')
+    try {
+      const data = await endConversation({
+        conversationId: conversation.id,
+        retailerId: conversation.retailer.id,
+        startedAt: conversation.startedAt,
+        messages,
+        capturedItems: capturedItems.map(({ productId, quantity }) => ({ productId, quantity })),
+        followUps,
+      })
+      setResult(data)
+      setStatus('ended')
+    } catch (err) {
+      setError(`Could not end the conversation: ${err.message}. Please try again.`)
+      busyRef.current = false
+      setStatus('active')
+    }
+  }, [conversation, status, messages, capturedItems, followUps])
+
+  return { status, conversation, messages, capturedItems, followUps, enquiryTotal, result, error, start, send, end }
 }
