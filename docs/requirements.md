@@ -14,9 +14,8 @@ This is a **browser-based prototype** built in under 24 hours. A sales rep or th
 ### US-1 Start a conversation with a selected retailer
 *As a user, I want to pick which retailer I am, so that the agent can refer to my shop, my credit and my last order.*
 
-- [ ] The home screen shows a "Start Conversation" action and a retailer dropdown loaded from `server/data/retailers.json`.
-- [ ] Given no retailer is selected, when I click Start, then the button is disabled or a message asks me to pick one.
-- [ ] Given a retailer is selected, when I click Start, then a new conversation opens and the agent greets the retailer by shop/owner name (for example, "Namaste Ramesh ji, welcome. How can I help Shree Ganesh Kirana today?").
+- [ ] **Prototype decision:** the app runs as a single retailer profile, R001 Shree Ganesh Kirana Store, Pune. There is no selector screen. The other retailers stay in `retailers.json` for future use.
+- [ ] When the app opens, a new conversation starts right away and the agent greets the retailer by shop/owner name (for example, "Namaste Ramesh ji, welcome. How can I help Shree Ganesh Kirana today?").
 - [ ] The conversation screen shows the retailer's name, city, type and outstanding amount.
 - [ ] Each conversation gets a unique ID and a start timestamp.
 
@@ -57,12 +56,12 @@ This is a **browser-based prototype** built in under 24 hours. A sales rep or th
 - [ ] Quantities are in the product's `unit` only (bottle, pouch, pack, etc.). There is no case conversion. Given I say "cases", then the agent asks for the number of units.
 - [ ] Captured items are kept as structured data: `productId`, `productName`, `quantity`, `unit`, plus the calculated fields below.
 - [ ] Given the quantity is below `minOrderQty`, then the agent tells me the minimum and asks whether to adjust.
-- [ ] Given the product is out of stock, then the interest is still recorded but marked as out of stock / backorder interest, and the agent suggests an in-stock alternative (see US-4).
+- [ ] Given the product is out of stock, then the interest is still recorded but marked as out of stock / backorder interest. It is shown in the panel but **excluded from the enquiry total**, and the agent suggests an in-stock alternative (see US-4).
 - [ ] **Scheme benefits and order values are calculated in backend code, not by Gemini.** Gemini only identifies the product and quantity. The code then calculates, for each item:
   - `freeUnits`, `discountAmount` and `freeGift`, using the scheme rules in section 6;
   - `grossValue` = `quantity × retailerPrice`;
   - `netValue` = `grossValue − discountAmount`.
-- [ ] The code also calculates the enquiry total (sum of `netValue`), which is shown in the side panel.
+- [ ] The code also calculates the enquiry total (sum of `netValue`, excluding out-of-stock/backorder items), which is shown in the side panel.
 - [ ] A scheme is applied only if today's date is on or before its `validTill` and the quantity meets the scheme threshold.
 - [ ] Given a scheme applies and my quantity qualifies (for example 20 bottles of P001 → 2 free), then the agent mentions the free units or discount. The numbers it states must be the code-calculated ones.
 - [ ] Given my quantity is just short of a scheme threshold, then the agent may tell me how many more units would qualify.
@@ -82,7 +81,7 @@ This is a **browser-based prototype** built in under 24 hours. A sales rep or th
 *As a sales manager, I want a short summary and outcome for every call, saved for later.*
 
 - [ ] An "End Conversation" button is always visible during a conversation.
-- [ ] When I click it, the backend sends the full transcript to Gemini and gets back a structured summary: `summary` (2–4 sentences), `productInterests[]`, `followUps[]`, `outcome`, `sentiment` (optional).
+- [ ] When I click it, the backend sends the full transcript to Gemini and gets back `summary` (2–4 sentences) and `sentiment` (optional). Product interests and follow-ups are **not** re-extracted by Gemini: the saved lists are the live lists captured during the call, re-priced in code. `outcome` is set by rule in code (see `docs/architecture.md` section 8).
 - [ ] `outcome` is one of: `order_enquiry`, `info_only`, `follow_up_required`, `no_interest`.
 - [ ] The conversation record (ID, retailer ID/name, start and end time, full transcript, summary, product interests, follow-ups, outcome) is saved to a JSON file in `/server/data` (for example `conversations.json`).
 - [ ] The summary is shown on screen right after saving.
