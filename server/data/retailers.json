@@ -1,0 +1,67 @@
+[
+  {
+    "id": "R001",
+    "name": "Shree Ganesh Kirana Store",
+    "ownerName": "Ramesh Patil",
+    "city": "Pune",
+    "area": "Kothrud",
+    "phone": "9876501234",
+    "type": "kirana",
+    "creditLimit": 50000,
+    "outstandingAmount": 12500,
+    "preferredLanguage": "Marathi",
+    "lastOrderDate": "2026-10-12"
+  },
+  {
+    "id": "R002",
+    "name": "Sai Kripa Supermart",
+    "ownerName": "Anita Sharma",
+    "city": "Jaipur",
+    "area": "Malviya Nagar",
+    "phone": "9812304567",
+    "type": "supermarket",
+    "creditLimit": 200000,
+    "outstandingAmount": 86000,
+    "preferredLanguage": "Hindi",
+    "lastOrderDate": "2026-10-20"
+  },
+  {
+    "id": "R003",
+    "name": "Lakshmi Medical and General Stores",
+    "ownerName": "Venkatesh Iyer",
+    "city": "Chennai",
+    "area": "T. Nagar",
+    "phone": "9840012345",
+    "type": "medical-cum-general",
+    "creditLimit": 75000,
+    "outstandingAmount": 0,
+    "preferredLanguage": "Tamil",
+    "lastOrderDate": "2026-09-28"
+  },
+  {
+    "id": "R004",
+    "name": "Baba Wholesale Traders",
+    "ownerName": "Gurpreet Singh",
+    "city": "Ludhiana",
+    "area": "Ghumar Mandi",
+    "phone": "9815567890",
+    "type": "wholesaler",
+    "creditLimit": 500000,
+    "outstandingAmount": 465000,
+    "preferredLanguage": "Punjabi",
+    "lastOrderDate": "2026-10-05"
+  },
+  {
+    "id": "R005",
+    "name": "Nayak Daily Needs",
+    "ownerName": "Priya Nayak",
+    "city": "Bhubaneswar",
+    "area": "Saheed Nagar",
+    "phone": "9861123456",
+    "type": "kirana",
+    "creditLimit": 30000,
+    "outstandingAmount": 4200,
+    "preferredLanguage": "English",
+    "lastOrderDate": "2026-08-30"
+  }
+]
