@@ -1,3 +1,4 @@
+import { ArrowLeft } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { getConversation } from '../api.js'
 import { formatDateTime, formatDuration } from '../format.js'
@@ -19,8 +20,8 @@ export default function ConversationDetail({ id, onBack }) {
   }, [id])
 
   const backButton = (
-    <button type="button" className="btn btn--ghost btn--small" onClick={onBack}>
-      ← Back to list
+    <button type="button" className="btn btn--ghost btn--small btn--icon" onClick={onBack}>
+      <ArrowLeft size={16} aria-hidden="true" /> Back to list
     </button>
   )
 

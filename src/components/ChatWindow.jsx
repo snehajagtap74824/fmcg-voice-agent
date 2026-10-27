@@ -1,3 +1,4 @@
+import { Bot } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import MessageBubble from './MessageBubble.jsx'
 
@@ -13,7 +14,23 @@ export default function ChatWindow({ messages, thinking }) {
       {messages.map((m, index) => (
         <MessageBubble key={`${m.ts}-${index}`} message={m} />
       ))}
-      {thinking && <div className="bubble bubble--agent bubble--thinking">Agent is thinking...</div>}
+      {thinking && (
+        <div className="message message--agent">
+          <span className="avatar avatar--bot" aria-hidden="true">
+            <Bot size={16} />
+          </span>
+          <div className="message__body">
+            <div className="bubble bubble--thinking">
+              <span className="dots" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+              <span className="sr-only">Assistant is thinking</span>
+            </div>
+          </div>
+        </div>
+      )}
       <div ref={endRef} />
     </div>
   )

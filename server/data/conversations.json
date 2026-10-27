@@ -118,5 +118,39 @@
         "intent": "follow_up"
       }
     ]
+  },
+  {
+    "id": "c48001a2-d282-48df-a4d7-827ece394591",
+    "retailerId": "R001",
+    "retailerName": "Shree Ganesh Kirana Store",
+    "ownerName": "Ramesh Patil",
+    "startedAt": "2026-10-27T03:50:27.111Z",
+    "endedAt": "2026-10-27T04:00:50.193Z",
+    "summary": "Ramesh Patil from Shree Ganesh Kirana Store inquired about the pricing and margin details for Keshvana Amla Hair Oil. No order enquiry was made during the call.",
+    "summaryStatus": "ok",
+    "outcome": "info_only",
+    "sentiment": "neutral",
+    "productInterests": [],
+    "enquiryTotal": 0,
+    "followUps": [],
+    "transcript": [
+      {
+        "role": "agent",
+        "text": "Namaste Ramesh ji, welcome. How can I help Shree Ganesh Kirana Store today?",
+        "ts": "2026-10-27T03:50:27.111Z",
+        "intent": "greeting"
+      },
+      {
+        "role": "retailer",
+        "text": "what is price of Amla hair oil",
+        "ts": "2026-10-27T04:00:09.474Z"
+      },
+      {
+        "role": "agent",
+        "text": "The Keshvana Amla Hair Oil has an MRP of 120 rupees and a retailer price of 99 rupees. It has a margin of 21 rupees per unit and a minimum order quantity of 12 bottles.",
+        "ts": "2026-10-27T04:00:33.748Z",
+        "intent": "price_query"
+      }
+    ]
   }
 ]

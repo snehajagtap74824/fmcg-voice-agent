@@ -30,6 +30,14 @@ async function request(path, options = {}) {
   return data
 }
 
+export function getProducts() {
+  return request('/products')
+}
+
+export function getRetailers() {
+  return request('/retailers')
+}
+
 export function startConversation(retailerId) {
   return request('/conversations/start', { method: 'POST', body: JSON.stringify({ retailerId }) })
 }

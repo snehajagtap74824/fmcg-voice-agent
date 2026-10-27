@@ -1,14 +1,21 @@
+import { Bot, User } from 'lucide-react'
 import { formatTime } from '../format.js'
 
-// The live chat calls the retailer "You"; saved transcripts pass retailerLabel="Retailer" and showTime.
-export default function MessageBubble({ message, retailerLabel = 'You', showTime = false }) {
+// Agent messages on the left with a bot avatar, retailer messages on the right with a user icon.
+export default function MessageBubble({ message, retailerLabel = 'You' }) {
+  const isAgent = message.role === 'agent'
   return (
-    <div className={`bubble bubble--${message.role}`}>
-      <span className="bubble__who">
-        {message.role === 'agent' ? 'Meera' : retailerLabel}
-        {showTime && message.ts && <span className="bubble__time"> · {formatTime(message.ts)}</span>}
+    <div className={`message message--${isAgent ? 'agent' : 'retailer'}`}>
+      <span className={`avatar ${isAgent ? 'avatar--bot' : 'avatar--user'}`} aria-hidden="true">
+        {isAgent ? <Bot size={16} /> : <User size={16} />}
       </span>
-      <p>{message.text}</p>
+      <div className="message__body">
+        <div className="bubble">
+          <span className="sr-only">{isAgent ? 'Assistant' : retailerLabel}: </span>
+          {message.text}
+        </div>
+        {message.ts && <time className="message__time">{formatTime(message.ts)}</time>}
+      </div>
     </div>
   )
 }

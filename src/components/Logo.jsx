@@ -1,0 +1,15 @@
+// Original mark: a leaf with sound-wave bars, for a fictional retail assistant.
+export default function Logo({ size = 36 }) {
+  return (
+    <svg viewBox="0 0 40 40" width={size} height={size} aria-hidden="true" className="logo">
+      <rect width="40" height="40" rx="10" fill="#1f6b45" />
+      <path d="M9 29c0-11 7-19 22-20-1 14-8 21-19 21-1.2 0-2.2-.3-3-1Z" fill="#e7f5ec" />
+      <path d="M11 29c5-6 9-10 15-14" stroke="#1f6b45" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+      <g stroke="#1f6b45" strokeWidth="1.8" strokeLinecap="round">
+        <line x1="17" y1="20" x2="17" y2="24" />
+        <line x1="20.5" y1="17.5" x2="20.5" y2="25" />
+        <line x1="24" y1="19" x2="24" y2="23" />
+      </g>
+    </svg>
+  )
+}
