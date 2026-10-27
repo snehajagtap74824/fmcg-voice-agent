@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
@@ -37,6 +38,14 @@ app.use('/api', createConversationsRouter({ products, retailers }));
 app.use('/api', createChatRouter({ products, retailers }));
 
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
+
+// Production: serve the built React app (npm run build) from the same server, so one web service runs everything.
+// Any other GET falls back to index.html. In development dist/ is absent and Vite serves the UI instead.
+const distDir = path.join(serverDir, '..', 'dist');
+if (existsSync(path.join(distDir, 'index.html'))) {
+  app.use(express.static(distDir));
+  app.get('/{*splat}', (req, res) => res.sendFile(path.join(distDir, 'index.html')));
+}
 
 // Malformed JSON bodies and unexpected errors.
 app.use((err, req, res, next) => {

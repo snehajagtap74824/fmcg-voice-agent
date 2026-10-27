@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "engines": {
-    "node": ">=22.12"
+    "node": ">=20"
   },
   "scripts": {
     "dev": "concurrently -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
@@ -13,9 +13,10 @@
     "install:all": "npm install",
     "postinstall": "npm install --prefix server",
     "test": "npm test --prefix server",
-    "build": "vite build",
+    "build": "npm install --prefix server && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node server/index.js"
   },
   "dependencies": {
     "lucide-react": "^1.61.0",
