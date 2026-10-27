@@ -58,7 +58,11 @@ export function useConversation() {
           capturedItems: capturedItems.map(({ productId, quantity }) => ({ productId, quantity })),
           followUps,
         })
-        setMessages([...nextMessages, { role: 'agent', text: data.reply, ts: now(), intent: data.intent }])
+        // aiText (without the code-built pricing note) is what goes back to Gemini as history.
+        setMessages([
+          ...nextMessages,
+          { role: 'agent', text: data.reply, aiText: data.aiReply, ts: now(), intent: data.intent },
+        ])
         setCapturedItems(data.capturedItems)
         setFollowUps(data.followUps)
         setEnquiryTotal(data.enquiryTotal)

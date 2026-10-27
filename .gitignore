@@ -30,3 +30,5 @@ CLAUDE.md
 server/.env
 
 docs/
+# Temporary file written while saving conversations
+server/data/*.tmp

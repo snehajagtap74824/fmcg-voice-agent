@@ -3,11 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
   "scripts": {
     "dev": "concurrently -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
     "dev:client": "vite",
     "dev:server": "npm run dev --prefix server",
-    "install:all": "npm install && npm install --prefix server",
+    "install:all": "npm install",
+    "postinstall": "npm install --prefix server",
     "test": "npm test --prefix server",
     "build": "vite build",
     "lint": "oxlint",

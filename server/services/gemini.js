@@ -1,20 +1,22 @@
 import { GoogleGenAI } from '@google/genai';
 
-const TIMEOUT_MS = 25000;
+const TIMEOUT_MS = 15000;
+const MAX_ATTEMPTS = 2;
 let client = null;
 
 export function getModelName() {
   return process.env.GEMINI_MODEL || 'gemini-3.5-flash';
 }
 
-// Try the main model first, then each fallback once (comma-separated list). Each model has its own
-// free-tier quota, so this also helps when one model hits 503 (busy) or 429 (daily limit).
+// Try the main model first, then the first fallback (comma-separated list); at most MAX_ATTEMPTS calls
+// so a turn cannot hang for long. Each model has its own free-tier quota, so this also helps when one
+// model hits 503 (busy) or 429 (daily limit).
 function getAttemptModels() {
   const fallbacks = (process.env.GEMINI_FALLBACK_MODELS || 'gemini-3.1-flash-lite,gemini-3.6-flash')
     .split(',')
     .map((m) => m.trim())
     .filter(Boolean);
-  return [...new Set([getModelName(), ...fallbacks])];
+  return [...new Set([getModelName(), ...fallbacks])].slice(0, MAX_ATTEMPTS);
 }
 
 export function isGeminiConfigured() {
@@ -60,7 +62,7 @@ async function callOnce({ model, systemInstruction, contents, schema, temperatur
   }
 }
 
-// Runs one structured-output call with a timeout and one retry. Throws if both attempts fail.
+// Runs one structured-output call with a timeout and one retry on the fallback model. Throws if both attempts fail.
 // Only error messages are logged, never the API key.
 export async function generateJson({ systemInstruction, contents, schema, temperature = 0.3 }) {
   let lastError;

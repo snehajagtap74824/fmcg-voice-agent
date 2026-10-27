@@ -43,18 +43,29 @@ export function sanitizeFollowUps(rawFollowUps) {
   return result;
 }
 
+// Agent turns use aiText (Gemini's own words, without the code-built pricing note) when present.
+function contentText(m) {
+  return m.role === 'agent' && typeof m.aiText === 'string' ? m.aiText : m.text;
+}
+
 // Retailer messages become "user", agent messages "model"; contents must start with a user turn.
-function toGeminiContents(messages) {
-  const recent = messages.slice(-HISTORY_LIMIT);
+// Empty messages are skipped because Gemini rejects empty text parts.
+export function toGeminiContents(messages) {
+  const recent = messages.slice(-HISTORY_LIMIT).filter((m) => contentText(m).trim());
   const firstUser = recent.findIndex((m) => m.role === 'retailer');
+  if (firstUser === -1) return [];
   return recent.slice(firstUser).map((m) => ({
     role: m.role === 'retailer' ? 'user' : 'model',
-    parts: [{ text: m.text }],
+    parts: [{ text: contentText(m) }],
   }));
 }
 
 export function isValidMessage(m) {
-  return (m?.role === 'retailer' || m?.role === 'agent') && typeof m.text === 'string';
+  return (
+    (m?.role === 'retailer' || m?.role === 'agent') &&
+    typeof m.text === 'string' &&
+    (m.aiText === undefined || typeof m.aiText === 'string')
+  );
 }
 
 export function createChatRouter({ products, retailers }) {
@@ -104,6 +115,7 @@ export function createChatRouter({ products, retailers }) {
     } catch {
       return res.json({
         reply: FALLBACK_REPLY,
+        aiReply: FALLBACK_REPLY,
         intent: 'other',
         pricingNote: '',
         capturedItems: prevPriced.items,
@@ -118,10 +130,12 @@ export function createChatRouter({ products, retailers }) {
     const pricingNote = buildPricingNote(prevPriced.items, priced.items, priced.enquiryTotal, {
       recapAll: intent === 'review_enquiry',
     });
-    const aiReply = String(aiResult.reply ?? '').trim();
+    // An empty reply would be stored as an empty agent turn, so a generic line is used instead.
+    const aiReply = String(aiResult.reply ?? '').trim() || FALLBACK_REPLY;
 
     res.json({
       reply: [aiReply, pricingNote].filter(Boolean).join(' '),
+      aiReply,
       intent,
       pricingNote,
       capturedItems: priced.items,
